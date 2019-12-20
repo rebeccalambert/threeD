@@ -108,7 +108,7 @@
 
             raycaster.setFromCamera(mouse, camera);
             var intersects = raycaster.intersectObjects(scene.children, true);
-            console.log(intersects)
+            // console.log(intersects)
             for (var i = 0; i < intersects.length; i++) {
                 let origX = intersects[i].object.position.x;
                 // intersects[i].object.material.color.set(0xff0000);
