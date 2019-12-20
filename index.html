@@ -56,7 +56,7 @@
         var geometry = new THREE.BoxGeometry(1, 1, 1);
         var material = new THREE.MeshLambertMaterial({color: 0xFFFC00});
         var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.y = 2;
+        mesh.position.x = -2;
 
         scene.add(mesh);
 
@@ -84,8 +84,8 @@
             event.preventDefault();
             // console.log("clicked")
 
-            mouse.x = ( event.clientX / window.innerWidth ) * 2 -1;
-            mouse.y = ( event.clientY / window.innerHeight ) * 2 -1;
+            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+            mouse.y = ( event.clientY / window.innerHeight ) * 2 - 1;
 
             raycaster.setFromCamera(mouse, camera);
 
@@ -96,8 +96,12 @@
                 // this.tl = new TimelineMax({paused: true});
                 this.tl.to(intersects[i].object.scale, 1, {x: 2, ease: Expo.easeOut})
                 this.tl.to(intersects[i].object.scale, .5, {x: .5, ease: Expo.easeOut})
-                this.tl.to(intersects[i].object.position, .5, {x: 2, ease: Expo.easeOut})
+                this.tl.to(intersects[i].object.position, .5, {y: 1, ease: Expo.easeOut})
                 this.tl.to(intersects[i].object.rotation, 1, {y: Math.PI*.5, ease: Expo.easeOut}, "=-1.5")
+                this.tl.to(intersects[i].object.scale, 1, {x: -2, ease: Expo.easeOut})
+                this.tl.to(intersects[i].object.scale, .5, {x: -.5, ease: Expo.easeOut})
+                this.tl.to(intersects[i].object.position, .5, {y: 0, ease: Expo.easeOut})
+                this.tl.to(intersects[i].object.rotation, 1, {y: -Math.PI*.5, ease: Expo.easeOut}, "=-1.5")
 
             }
         }
