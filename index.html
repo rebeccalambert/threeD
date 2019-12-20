@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+
+    <h1>This is getting cool!</h1>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
     <script>
@@ -40,34 +42,51 @@
         var mouse = new THREE.Vector2();
 
         
-        var geometry = new THREE.BoxGeometry(1, 1, 1);
-        var material = new THREE.MeshLambertMaterial({color: 0xFFCC00});
-        var mesh = new THREE.Mesh(geometry, material);
+        // var geometry = new THREE.BoxGeometry(1, 1, 1);
+        // var material = new THREE.MeshLambertMaterial({color: 0xFFCC00});
+        // var mesh = new THREE.Mesh(geometry, material);
 
-        // mesh.position.x = -1;
-        // mesh.position.y = 1;
-        // mesh.position.z = 0;
-        // mesh.position.set(2, -2, 2) // sets all three (chech out .rotation too)
+        // // mesh.position.x = -1;
+        // // mesh.position.y = 1;
+        // // mesh.position.z = 0;
+        // // mesh.position.set(2, -2, 2) // sets all three (chech out .rotation too)
                
-        scene.add(mesh);
+        // scene.add(mesh);
 
 
         // 2-------------------------------------------------------------------
+        // var geometry = new THREE.BoxGeometry(1, 1, 1);
+        // var material = new THREE.MeshLambertMaterial({color: 0xFFFC00});
+        // var mesh = new THREE.Mesh(geometry, material);
+        // mesh.position.y = 2;
+
+        // scene.add(mesh);
+
+
+
+        // 3-------------------------------------------------------------------
         var geometry = new THREE.BoxGeometry(1, 1, 1);
-        var material = new THREE.MeshLambertMaterial({color: 0xFFFC00});
-        var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.y = 2;
+        var material = new THREE.MeshLambertMaterial({color: 0xF7F7F7});
 
-        scene.add(mesh);
+        meshX = -10;
+        for(var i = 0; i<15;i++) {
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position.x = (Math.random() - 0.5) * 10;
+            mesh.position.y = (Math.random() - 0.5) * 10;
+            mesh.position.z = (Math.random() - 0.5) * 10;
+            scene.add(mesh);
+            meshX+=1;
+        }
 
-        // something is weird --> the event handler is below the other square for some reason... its like -2 for y instead of just 2
 
 
-
-
-
-        var light = new THREE.PointLight(0xFFFFFF, 1, 500);
-        light.position.set(10, 0, 25);
+        var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
+        light.position.set(0, 0, 0);
+        scene.add(light);
+        
+        
+        var light = new THREE.PointLight(0xFFFFFF, 2, 1000);
+        light.position.set(0, 0, 25);
         scene.add(light);
         
         var render = function() {
@@ -88,20 +107,22 @@
             mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
-
             var intersects = raycaster.intersectObjects(scene.children, true);
+            console.log(intersects)
             for (var i = 0; i < intersects.length; i++) {
+                let origX = intersects[i].object.position.x;
                 // intersects[i].object.material.color.set(0xff0000);
                 // this.tl = new TimelineMax();
                 // this.tl = new TimelineMax({paused: true});
                 this.tl = new TimelineMax();
+                // console.log(intersects[i].object.position)
                 this.tl.to(intersects[i].object.scale, 1, {x: 2, ease: Expo.easeOut})
                 this.tl.to(intersects[i].object.scale, .5, {x: .5, ease: Expo.easeOut})
                 this.tl.to(intersects[i].object.position, .5, {x: 2, ease: Expo.easeOut})
                 this.tl.to(intersects[i].object.rotation, 1, {y: Math.PI*.5, ease: Expo.easeOut}, "=-1.5")
                 this.tl.to(intersects[i].object.scale, 1, {x: -2, ease: Expo.easeOut})
                 this.tl.to(intersects[i].object.scale, .5, {x: -.5, ease: Expo.easeOut})
-                this.tl.to(intersects[i].object.position, .5, {x: 0, ease: Expo.easeOut})
+                this.tl.to(intersects[i].object.position, .5, {x: origX, ease: Expo.easeOut})
                 this.tl.to(intersects[i].object.rotation, 3, {y: -Math.PI*.5, ease: Expo.easeOut}, "=-1.5")
             }
         }
